@@ -355,35 +355,47 @@
       margin-bottom: 16px;
     }
 
-    /* JUEGO: TOP COMPACTO + PIZARRA GIGANTE */
+    /* JUEGO */
     .game-vertical-layout {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
       height: 100%;
       width: 100%;
       flex: 1;
+      min-height: 0;
     }
 
     .top-question-card {
       background: white;
       border-radius: var(--radius);
-      padding: 6px 12px 8px 12px;
+      padding: 10px 14px;
       box-shadow: var(--shadow);
       border: 2px solid #F8BBD0;
       flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .game-vertical-layout.lang-priority .top-question-card {
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 12px 18px;
+      border: 2.5px solid #F48FB1;
     }
 
     .top-info-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       margin-bottom: 4px;
+      flex-shrink: 0;
     }
 
     .tag {
-      padding: 2px 6px;
+      padding: 2px 8px;
       background: var(--pink-soft);
       color: var(--pink-dark);
       border-radius: 10px;
@@ -392,7 +404,7 @@
     }
 
     .source-tag {
-      padding: 2px 6px;
+      padding: 2px 8px;
       background: #EDE7F6;
       color: #5E35B1;
       border-radius: 10px;
@@ -403,9 +415,9 @@
     .tip-box {
       background: #E1F5FE;
       color: #0277BD;
-      padding: 2px 6px;
+      padding: 2px 8px;
       border-radius: 6px;
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       display: inline-flex;
       align-items: center;
       gap: 4px;
@@ -416,44 +428,55 @@
     }
 
     .question-box {
-      font-size: 1.1rem;
+      font-size: 1.08rem;
       font-weight: bold;
       color: var(--brown-dark);
-      margin: 2px 0 6px 0;
+      margin: 4px 0 8px 0;
       line-height: 1.25;
+      flex-shrink: 0;
     }
 
     .reading-passage {
       background: #FFFDE7;
-      padding: 8px 12px;
+      padding: 10px 14px;
       border-radius: 10px;
       font-size: 0.92rem;
-      line-height: 1.4;
-      max-height: 160px;
-      overflow-y: auto;
+      line-height: 1.45;
       border: 1.5px dashed #FBC02D;
-      margin-bottom: 6px;
-      color: #37474F;
+      margin-bottom: 8px;
+      color: #263238;
       white-space: pre-line;
+      max-height: 190px;
+      overflow-y: auto;
     }
 
     .options-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .game-vertical-layout.lang-priority .options-row {
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
     }
 
     .option-btn {
       background: #F8F9FA;
       border: 1.5px solid #CFD8DC;
-      border-radius: 8px;
-      padding: 6px 4px;
-      font-size: 0.95rem;
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 0.92rem;
       font-weight: bold;
       color: #37474F;
       cursor: pointer;
       text-align: center;
       transition: all 0.15s;
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .option-btn:hover {
@@ -698,7 +721,7 @@
           <button class="btn-mode" id="mode-lang-btn" onclick="selectMode('lang')">
             <span style="font-size: 1.4rem;">⚡</span>
             <span>Lenguaje</span>
-            <small style="color: #616161;">Noticias, Poesía, Leyendas y Hogwarts</small>
+            <small style="color: #616161;">Megabanco Mineduc + Retos Infinitos</small>
           </button>
         </div>
 
@@ -717,13 +740,11 @@
           </div>
         </div>
 
-        <!-- Indicador de sesiones completadas para el ítem actual -->
         <div class="item-progress-badge">
           <span id="item-progress-label">Sesiones completadas en este tema: 0 / 10</span>
           <span id="item-progress-stars">☆☆☆☆☆☆☆☆☆☆</span>
         </div>
 
-        <!-- Banner de Examen que se desbloquea con 10 sesiones de ese tema -->
         <div id="exam-banner" style="display: none; margin-top: 8px; background: #EDE7F6; padding: 6px 12px; border-radius: 12px; border: 1.5px solid var(--purple-accent); justify-content: space-between; align-items: center;">
           <div>
             <strong style="color: var(--purple-accent); font-size: 0.9rem;" id="exam-banner-title">🏆 ¡PRUEBA MAESTRA DESBLOQUEADA!</strong>
@@ -753,7 +774,7 @@
 
   <!-- PANTALLA JUEGO -->
   <main class="screen" id="game-screen">
-    <div class="game-vertical-layout">
+    <div class="game-vertical-layout" id="game-vertical-layout">
       <div class="top-question-card">
         <div class="top-info-row">
           <span class="tag" id="subject-tag">Materia</span>
@@ -812,7 +833,7 @@
           <ul id="strengths-list" style="padding-left: 18px; line-height: 1.5; font-size: 0.88rem;">
             <li>Fracciones con denominadores Mineduc (hasta 12 y centésimos).</li>
             <li>Multiplicación de 3 dígitos por 1 dígito algorítmica.</li>
-            <li>Comprensión lectora crítica en noticias, afiches y poemas.</li>
+            <li>Comprensión lectora, acentuación y ortografía de homófonos.</li>
           </ul>
         </div>
 
@@ -1091,8 +1112,8 @@
         text: "En 4° básico operamos fracciones con <strong>igual denominador</strong> (hasta 12 y centésimos con 100). Conserva el denominador sin alterarlo y suma o resta únicamente los numeradores."
       },
       lang: {
-        title: "⚡ Lenguaje y Comunicación (Currículum Mineduc 4° Básico)",
-        text: "Practicaremos noticias informativas, afiches publicitarios con eslogan, recetas con verbos instructivos, poesía con versos y estrofas, leyendas chilenas y relatos de Hogwarts. ¡Lee con calma y busca las pistas!"
+        title: "⚡ Lenguaje y Comunicación (Mineduc 4° Básico)",
+        text: "Combinamos fábulas, leyendas tradicionales chilenas, noticias reales, poemas, afiches y desafíos infinitos de acentuación y homófonos (botar/votar, ahí/hay). ¡Lee con calma las pistas!"
       },
       mix: {
         title: "🌟 Desafío Mixto de 4° Básico",
@@ -1123,7 +1144,7 @@
       startGameplay(15, 20 * 60);
     }
 
-    /* GENERADORES MATEMÁTICAS CALIBRADOS AL MINEDUC 4° BÁSICO */
+    /* GENERADORES MATEMÁTICAS */
     function genInequation() {
       const numBase = Math.floor(Math.random() * 6) + 4;
       const diff = Math.floor(Math.random() * 5) + 3;
@@ -1251,7 +1272,7 @@
       };
     }
 
-    /* MULTIPLICACIÓN OFICIAL MINEDUC (OA 05): 3 DÍGITOS × 1 DÍGITO */
+    /* MULTIPLICACIÓN (OA 05): 3 DÍGITOS × 1 DÍGITO */
     function genMul3Digits() {
       const a = Math.floor(Math.random() * 500) + 120;
       const b = Math.floor(Math.random() * 6) + 2;
@@ -1267,13 +1288,12 @@
       };
     }
 
-    /* DIVISIÓN OFICIAL MINEDUC (OA 06): 2 DÍGITOS ÷ 1 DÍGITO */
+    /* DIVISIÓN (OA 06): 2 DÍGITOS ÷ 1 DÍGITO */
     function genDiv3Digits() {
-      const divi = Math.floor(Math.random() * 7) + 2; // Divisor entre 2 y 8
-      const coci = Math.floor(Math.random() * 18) + 11; // Cociente entre 11 y 28
+      const divi = Math.floor(Math.random() * 7) + 2;
+      const coci = Math.floor(Math.random() * 18) + 11;
       let divid = divi * coci;
 
-      // Aseguramos dividendo exacto de 2 dígitos según OA 06
       if (divid > 99) {
         divid = divi * (Math.floor(95 / divi));
       }
@@ -1290,7 +1310,7 @@
       };
     }
 
-    /* FRACCIONES OFICIALES MINEDUC (OA 08 y OA 09): DENOMINADORES HASTA 12 Y CENTÉSIMOS (100) */
+    /* FRACCIONES (OA 08 y OA 09) */
     function genFraction() {
       const denominadoresMineduc = [4, 5, 6, 8, 10, 12, 100];
       const den = denominadoresMineduc[Math.floor(Math.random() * denominadoresMineduc.length)];
@@ -1394,227 +1414,293 @@
       return list;
     }
 
-    /* BANCO DIVERSIFICADO DE LENGUAJE (MINEDUC 4° BÁSICO: OA 04, OA 05, OA 06, OA 19-21) */
-    const storiesDB = [
-      // 1. TEXTO INFORMATIVO / NOTICIA
+    /* =========================================================================
+       ALTERNATIVA A: MEGABANCO MINEDUC 4° BÁSICO (ROTACIÓN SIN REPETIR)
+       ========================================================================= */
+    const megaBancoLecturas = [
       {
-        id: "noticia_ballena",
-        title: "Noticia: Descubren santuario submarino en el norte de Chile",
-        source: "Texto Informativo - Prensa Escolar / Mineduc 4° Básico (OA 06)",
-        text: "ANTOFAGASTA.- Un equipo de biólogos marinos confirmó este jueves el hallazgo de una zona de alimentación y descanso de ballenas jorobadas a solo veinte kilómetros de la costa.\nLos científicos utilizaron drones y cámaras acuáticas para registrar más de treinta ejemplares nadando con sus crías. La comunidad científica solicitó declarar el área como reserva marina para evitar que embarcaciones de gran velocidad pongan en riesgo a los cetáceos.",
-        questions: [
-          {
-            q: "¿Cuál es el hecho principal que informa esta noticia?",
-            a: "El hallazgo de una zona de descanso y alimentación de ballenas jorobadas",
-            tip: "En una noticia, el titular y las primeras líneas comunican el hecho central.",
-            opts: [
-              "El hallazgo de una zona de descanso y alimentación de ballenas jorobadas",
-              "La construcción de nuevos puertos en la ciudad de Antofagasta",
-              "Una competencia de natación y buceo en el norte del país",
-              "La compra de drones y cámaras acuáticas por pescadores"
-            ]
-          },
-          {
-            q: "¿Para qué solicitó la comunidad científica declarar el área como reserva marina?",
-            a: "Para proteger a las ballenas y sus crías del peligro de las embarcaciones",
-            tip: "Busca en el último párrafo la consecuencia o medida propuesta por los científicos.",
-            opts: [
-              "Para proteger a las ballenas y sus crías del peligro de las embarcaciones",
-              "Para cobrar entradas a turistas extranjeros",
-              "Para realizar carreras de botes los fines de semana",
-              "Para vender los videos grabados con drones"
-            ]
-          }
+        id: "l_pincoya",
+        title: "Leyenda: El baile sagrado de la Pincoya",
+        source: "Mineduc 4° Básico • Tradición Oral Chilota (OA 04)",
+        text: "En los canales de Chiloé aparece la Pincoya, doncella marina vestida con algas doradas. Si danza mirando hacia el océano infinito, anuncia que los peces y mariscos serán abundantes toda la temporada. Pero si baila de espaldas al mar, mirando a la playa, avisa que la pesca será escasa. Los chilotes cuidan sus playas con respeto, pues saben que la codicia aleja a la doncella.",
+        question: "¿Qué anuncia la danza de la Pincoya cuando mira directamente hacia el océano?",
+        correct: "Que habrá gran abundancia de peces y mariscos",
+        tip: "Busca en el texto la causa y efecto de su baile mirando hacia el mar abierto.",
+        opts: [
+          "Que habrá gran abundancia de peces y mariscos",
+          "Que se aproxima una fuerte tormenta invernal",
+          "Que los pescadores no deben salir en sus botes",
+          "Que las aguas están contaminadas por barcos"
         ]
       },
-
-      // 2. TEXTO INSTRUCTIVO / RECETA
       {
-        id: "receta_capibara",
-        title: "Texto Instructivo: Cocadas mágicas de avena y plátano",
-        source: "Texto No Literario: Receta / Mineduc 4° Básico (OA 06)",
-        text: "INGREDIENTES:\n• 2 plátanos maduros molidos.\n• 1 taza de avena integral.\n• 3 cucharadas de coco rallado.\n\nPREPARACIÓN:\n1. En un bol mediano, machaca los plátanos con un tenedor hasta formar un puré.\n2. Incorpora la avena poco a poco mezclando con una cuchara de madera.\n3. Con las manos limpias, forma pequeñas bolitas y ruédalas sobre el coco rallado.\n4. Refrigera durante 30 minutos antes de servir.",
-        questions: [
-          {
-            q: "¿Cuál es la función principal de este tipo de texto instructivo?",
-            a: "Enseñar paso a paso cómo preparar un alimento",
-            tip: "Piensa en el objetivo de las recetas: ¿cuentan una historia o dan instrucciones ordenadas?",
-            opts: [
-              "Enseñar paso a paso cómo preparar un alimento",
-              "Convencer a las personas de plantar árboles de plátano",
-              "Contar una historia divertida sobre dos cocineros",
-              "Describir la historia del coco en América"
-            ]
-          },
-          {
-            q: "En el paso 3, las palabras 'machaca', 'incorpora' y 'forma' son:",
-            a: "Verbos que expresan acciones o instrucciones a seguir",
-            tip: "Pregúntate qué indican estas palabras al lector: ¿características, nombres o acciones?",
-            opts: [
-              "Verbos que expresan acciones o instrucciones a seguir",
-              "Adjetivos que describen los ingredientes",
-              "Sustantivos comunes de utensilios de cocina",
-              "Preguntas sin resolver"
-            ]
-          }
+        id: "l_anannuca",
+        title: "Leyenda: La flor roja de Añañuca",
+        source: "Mineduc 4° Básico • Leyendas del Norte de Chile",
+        text: "En Monte Patria vivía Añañuca, una joven que se enamoró de un minero errante. Un día, el minero tuvo un sueño sobre una veta de oro y partió hacia la cordillera prometiendo volver pronto, pero nunca regresó. Añañuca murió de tristeza y fue sepultada en el desierto. Al día siguiente, una suave lluvia regó el valle y la tumba amaneció cubierta de hermosas flores rojas que hoy llevan su nombre.",
+        question: "¿Qué fenómeno ocurrió en el desierto tras la partida de Añañuca?",
+        correct: "Brotaron hermosas flores rojas sobre el lugar donde fue sepultada",
+        tip: "Lee el desenlace para descubrir el origen de esta flor del desierto.",
+        opts: [
+          "Brotaron hermosas flores rojas sobre el lugar donde fue sepultada",
+          "El minero regresó cargado con pepitas de oro",
+          "El pueblo construyó un gran castillo de piedra",
+          "Se formó una laguna de aguas termales"
         ]
       },
-
-      // 3. POESÍA Y LENGUAJE FIGURADO
       {
-        id: "poema_viento",
+        id: "l_zorro_darwin",
+        title: "El zorro de Darwin y el bosque chilote",
+        source: "Mineduc 4° Básico • Texto Informativo de Ciencias y Lenguaje",
+        text: "En los densos bosques de la Isla Grande de Chiloé habita el zorro de Darwin, uno de los cánidos más pequeños y amenazados del planeta. A diferencia de otros animales que huyen de inmediato, este zorro es curioso y sigiloso. Los biólogos descubrieron que cumple un rol clave: al alimentarse de pequeños frutos silvestres, dispersa las semillas para que crezcan nuevos árboles nativos.",
+        question: "¿Cuál es la función ecológica vital que cumple este zorro en el bosque?",
+        correct: "Dispersar semillas de frutos silvestres para renovar los árboles",
+        tip: "Identifica la consecuencia que tiene su alimentación en la naturaleza.",
+        opts: [
+          "Dispersar semillas de frutos silvestres para renovar los árboles",
+          "Cazar animales grandes para limpiar los senderos",
+          "Construir madrigueras subterráneas para los roedores",
+          "Avisar a las aves cuando se aproxima la lluvia"
+        ]
+      },
+      {
+        id: "l_ballenas",
+        title: "Noticia: Descubren zona de crianza de ballenas jorobadas",
+        source: "Prensa Escolar Mineduc 4° Básico • Noticia",
+        text: "ANTOFAGASTA.- Biólogos marinos confirmaron este jueves el hallazgo de una zona de descanso de ballenas jorobadas a solo veinte kilómetros de la costa norte. Con drones acuáticos registraron a más de treinta madres nadando con sus crías. La comunidad científica solicitó declarar el sector como reserva protegida para evitar accidentes con lanchas rápidas.",
+        question: "¿Para qué solicitaron los científicos declarar la zona como reserva marina?",
+        correct: "Para proteger a las madres y sus crías de las embarcaciones de alta velocidad",
+        tip: "Busca en la última oración la medida de prevención solicitada.",
+        opts: [
+          "Para proteger a las madres y sus crías de las embarcaciones de alta velocidad",
+          "Para cobrar entradas turísticas a los visitantes",
+          "Para construir un muelle pesquero en medio del mar",
+          "Para trasladar a las ballenas a un parque acuático"
+        ]
+      },
+      {
+        id: "l_receta_cocadas",
+        title: "Receta: Cocadas saludables de avena y plátano",
+        source: "Mineduc 4° Básico • Texto Instructivo (OA 06)",
+        text: "INGREDIENTES:\n• 2 plátanos maduros.\n• 1 taza de avena integral.\n• 3 cucharadas de coco rallado.\n\nPREPARACIÓN:\n1. Machaca los plátanos con un tenedor hasta formar un puré suave.\n2. Incorpora la avena mezclando con una cuchara de madera.\n3. Con las manos limpias, forma bolitas y ruédalas por el coco rallado.\n4. Refrigera 30 minutos antes de disfrutar.",
+        question: "En el paso 1, la palabra 'Machaca' corresponde a:",
+        correct: "Un verbo que entrega una instrucción o acción directa",
+        tip: "Pregúntate: ¿esta palabra indica una cualidad, un objeto o una acción a realizar?",
+        opts: [
+          "Un verbo que entrega una instrucción o acción directa",
+          "Un sustantivo común de cocina",
+          "Un adjetivo que califica al tenedor",
+          "Un conector de causa"
+        ]
+      },
+      {
+        id: "l_afiche_agua",
+        title: "Afiche Escolar: ¡Cada Gota Cuenta en Nuestra Escuela!",
+        source: "Mineduc 4° Básico • Texto Discontinuo / Afiche Publicitario",
+        text: "💧 CAMPAÑA AMBIENTAL DE 4° BÁSICO 💧\n• Cierra la llave del agua mientras te cepillas los dientes.\n• Avisa de inmediato si ves una gotera en el baño.\n\n\"Si cuidamos el agua hoy, florecerá nuestro mañana.\"\nOrganiza: Brigada Ecológica Escolar.",
+        question: "En el afiche, la frase 'Si cuidamos el agua hoy, florecerá nuestro mañana' cumple el rol de:",
+        correct: "Eslogan o lema principal que resume el mensaje motivador",
+        tip: "Identifica la frase llamativa y memorable que acompaña a las campañas.",
+        opts: [
+          "Eslogan o lema principal que resume el mensaje motivador",
+          "Firma del inspector general del colegio",
+          "Horario de entrada a clases",
+          "Instrucción para reparar tuberías"
+        ]
+      },
+      {
+        id: "l_poema_viento",
         title: "Poema: Canción del Viento Costero",
-        source: "Poesía Infantil Chilena / Mineduc 4° Básico (OA 05)",
+        source: "Mineduc 4° Básico • Poesía Infantil Chilena (OA 05)",
         text: "El viento baja de los cerros,\ncon zapatos de cristal;\ndespeina los viejos sauces\ny hace a las olas bailar.\n\nTrae secretos de gaviotas,\nolor a conchas y sal,\ny en la ventana del faro\nse sienta a descansar.",
-        questions: [
-          {
-            q: "¿Cuántos versos componen la primera estrofa de este poema?",
-            a: "4 versos",
-            tip: "Recuerda: cada línea del poema es un verso, y el grupo de líneas forma una estrofa.",
-            opts: [
-              "4 versos",
-              "2 versos",
-              "8 versos",
-              "1 verso largo"
-            ]
-          },
-          {
-            q: "¿Qué significa en lenguaje figurado que el viento 'hace a las olas bailar'?",
-            a: "Que el viento sopla sobre el mar produciendo el vaivén del oleaje",
-            tip: "Interpreta la imagen poética: el mar no baila como una persona, pero se mueve.",
-            opts: [
-              "Que el viento sopla sobre el mar produciendo el vaivén del oleaje",
-              "Que las olas ponen música en una fiesta submarina",
-              "Que los peces salen a la arena a danzar",
-              "Que el agua se congela por el frío del cerro"
-            ]
-          }
+        question: "¿Qué significa en sentido figurado que el viento 'hace a las olas bailar'?",
+        correct: "Que el viento sopla sobre el mar produciendo el vaivén del oleaje",
+        tip: "Interpreta la imagen poética: las olas no tienen pies, pero el viento las mueve.",
+        opts: [
+          "Que el viento sopla sobre el mar produciendo el vaivén del oleaje",
+          "Que los peces organizaron una fiesta submarina",
+          "Que el agua se congeló por el frío de la cordillera",
+          "Que las olas se salieron por completo de la playa"
         ]
       },
-
-      // 4. LEYENDA CHILENA TRADICIONAL
       {
-        id: "leyenda_pincoya",
-        title: "Leyenda: El canto protector de la Pincoya",
-        source: "Tradición Oral de Chiloé / Mineduc 4° Básico (OA 04)",
-        text: "En los canales del archipiélago de Chiloé aparece en ocasiones la Pincoya, una hermosa doncella marina que emerge vestida con algas doradas. Si la Pincoya danza mirando hacia el océano infinito, anuncia que los peces y mariscos serán abundantes durante toda la temporada. En cambio, si baila de espaldas al mar, mirando hacia la playa, avisa que las aguas descansarán y la pesca será escasa. Los pescadores chilotes cuidan sus playas con respeto, pues saben que la codicia y la pesca desmedida alejan a la Pincoya de sus costas.",
-        questions: [
-          {
-            q: "¿Qué indica la danza de la Pincoya cuando mira directamente hacia el océano?",
-            a: "Que habrá abundancia de peces y mariscos para la comunidad",
-            tip: "Busca en el texto la relación de causa y efecto de la dirección en la que baila.",
-            opts: [
-              "Que habrá abundancia de peces y mariscos para la comunidad",
-              "Que se aproxima una gran tormenta con nieve",
-              "Que los botes no podrán salir a navegar",
-              "Que los peces han desaparecido de los canales"
-            ]
-          },
-          {
-            q: "¿Por qué este relato se clasifica como una 'leyenda'?",
-            a: "Porque explica tradiciones y fenómenos de un lugar mezclando realidad y fantasía",
-            tip: "Recuerda las características de las leyendas que enseña el libro de 4° básico.",
-            opts: [
-              "Porque explica tradiciones y fenómenos de un lugar mezclando realidad y fantasía",
-              "Porque es una noticia real publicada en un diario local",
-              "Porque enseña una receta médica antigua",
-              "Porque es una lista de reglas escolares"
-            ]
-          }
+        id: "l_zorra_uvas",
+        title: "Fábula: La zorra y las uvas racimosas",
+        source: "Fábulas de Esopo • Mineduc 4° Básico",
+        text: "Una zorra hambrienta divisó unos apetitosos racimos de uvas que colgaban de una parra alta. Saltó una y otra vez con todas sus fuerzas, pero no logró alcanzarlos. Al darse cuenta de que era inútil, se alejó con aire despectivo diciendo: 'Total, todavía están muy verdes y agrias'. Moraleja: Es fácil despreciar lo que no somos capaces de alcanzar.",
+        question: "¿Por qué la zorra afirmó que las uvas estaban verdes?",
+        correct: "Para disimular su frustración por no haber podido alcanzarlas",
+        tip: "Reflexiona sobre la actitud del personaje al ver que sus saltos fracasaron.",
+        opts: [
+          "Para disimular su frustración por no haber podido alcanzarlas",
+          "Porque un campesino le avisó que tenían veneno",
+          "Porque comprobó el sabor probando una uva",
+          "Porque en realidad tenía mucha sed y no hambre"
         ]
       },
-
-      // 5. AFICHE Y MENSAJE PUBLICITARIO / ECOLÓGICO
       {
-        id: "afiche_agua",
-        title: "Afiche Comunitario: ¡Cada Gota Cuenta!",
-        source: "Texto Discontinuo / Afiche Mineduc 4° Básico (OA 06)",
-        text: "--------------------------------------------------\n💧 CAMPAÑA ESCOLAR: ¡CUIDA EL AGUA HOY! 💧\n--------------------------------------------------\nCierra la llave mientras te cepillas los dientes.\nRepara las goteras de inmediato.\n\n\"Si cuidamos el agua juntos, florece nuestro futuro.\"\nOrganiza: Brigada Ecológica de 4° Básico.",
-        questions: [
-          {
-            q: "¿Cuál es el propósito comunicativo central de este afiche?",
-            a: "Promover el ahorro y cuidado responsable del agua en la escuela y el hogar",
-            tip: "Los afiches buscan crear conciencia o convencer sobre una conducta positiva.",
-            opts: [
-              "Promover el ahorro y cuidado responsable del agua en la escuela y el hogar",
-              "Vender cepillos de dientes ecológicos",
-              "Avisar que no habrá clases de educación física",
-              "Enseñar a reparar cañerías profesionales"
-            ]
-          },
-          {
-            q: "En el afiche, la frase 'Si cuidamos el agua juntos, florece nuestro futuro' cumple la función de:",
-            a: "Eslogan o lema principal que resume el mensaje clave",
-            tip: "Identifica la frase llamativa y memorable que acompaña a los afiches publicitarios.",
-            opts: [
-              "Eslogan o lema principal que resume el mensaje clave",
-              "La firma del inspector general",
-              "Una pregunta de prueba sin resolver",
-              "El horario de salida de clases"
-            ]
-          }
+        id: "l_leon_raton",
+        title: "Fábula: El león generoso y el pequeño ratón",
+        source: "Fábulas Clásicas • Comprensión Crítica 4° Básico",
+        text: "Un ratón cayó accidentalmente entre las garras de un león dormido. El felino despertó enfadado, pero el ratón le suplicó: 'Perdóname la vida; algún día podré devolverte el favor'. El león rio ante la idea y lo soltó. Días después, el león quedó atrapado en la red de unos cazadores. El ratón escuchó sus rugidos, royó las cuerdas con sus dientes afilados y lo liberó.",
+        question: "¿Qué gran enseñanza transmite el desenlace de esta historia?",
+        correct: "Que nadie es tan pequeño como para no poder ayudar a los demás",
+        tip: "Observa cómo un animal diminuto logró salvar al rey de la selva.",
+        opts: [
+          "Que nadie es tan pequeño como para no poder ayudar a los demás",
+          "Que los leones no deben cazar animales pequeños",
+          "Que los cazadores siempre capturan a los leones en la selva",
+          "Que es mejor escapar sin mirar atrás"
         ]
       },
-
-      // 6. NARRATIVA INFANTIL / HARRY POTTER
       {
-        id: "hogwarts_dani",
-        title: "Narrativa: Daniela y el Enigma de la Sala Común",
-        source: "Comprensión Crítica e Inferencia / 4° Básico (OA 04)",
-        text: "Durante una fría noche en el castillo de Hogwarts, Daniela repasaba pergaminos en la biblioteca. Un cuadro parlante en el corredor susurró un acertijo sobre la lealtad y el coraje. Para abrir el pasadizo hacia la torre, Dani comprendió que no debía usar un hechizo de ataque, sino demostrar que sabía escuchar y pensar con serenidad antes de actuar. Con calma, guardó su varita en la túnica, descifró las palabras talladas en la piedra y compartió la pista con sus compañeros, demostrando que la verdadera sabiduría reside en reflexionar y colaborar.",
-        questions: [
-          {
-            q: "¿Cuál es el sujeto en la oración: 'La inteligente alumna de Hogwarts resolvió el enigma'?",
-            a: "La inteligente alumna de Hogwarts",
-            tip: "Pregúntale al verbo: ¿Quién resolvió el enigma?",
-            opts: [
-              "La inteligente alumna de Hogwarts",
-              "resolvió el enigma",
-              "el enigma",
-              "de Hogwarts"
-            ]
-          },
-          {
-            q: "¿Qué mensaje principal transmite la experiencia de Daniela en el castillo?",
-            a: "Que la reflexión y el trabajo colaborativo superan a la fuerza bruta",
-            tip: "Lee la conclusión del relato para identificar la enseñanza central.",
-            opts: [
-              "Que la reflexión y el trabajo colaborativo superan a la fuerza bruta",
-              "Que los pasadizos de los castillos son peligrosos de noche",
-              "Que siempre es mejor estudiar a solas sin ayuda de nadie",
-              "Que la magia solo sirve para ganar duelos"
-            ]
-          }
+        id: "l_hogwarts_dani",
+        title: "Daniela y el Enigma de la Sala Común de Hogwarts",
+        source: "Lectura Crítica e Inferencia • 4° Básico",
+        text: "Durante una noche fría en el castillo de Hogwarts, Daniela repasaba pergaminos en la biblioteca. Un cuadro en el corredor susurró un acertijo sobre el coraje y la paciencia. Para abrir el pasadizo hacia la torre, Dani no necesitó un hechizo de ataque, sino escuchar con atención y descifrar las palabras talladas en la piedra junto a sus compañeros. Demostró que la verdadera sabiduría reside en reflexionar antes de actuar.",
+        question: "¿Cuál es el sujeto en la oración: 'La inteligente alumna de Hogwarts resolvió el enigma'?",
+        correct: "La inteligente alumna de Hogwarts",
+        tip: "Hazle la pregunta al verbo: ¿Quién resolvió el enigma?",
+        opts: [
+          "La inteligente alumna de Hogwarts",
+          "resolvió el enigma",
+          "el enigma",
+          "de Hogwarts"
         ]
       }
     ];
 
-    let lastUsedStoryId = null;
+    /* =========================================================================
+       ALTERNATIVA B: GENERADOR ALGORÍTMICO INFINITO DE DESAFÍOS LINGÜÍSTICOS
+       ========================================================================= */
+    const bancoHomonimos = [
+      {
+        oracion: "Los ciudadanos acudieron temprano a _____ en las elecciones de presidente de curso.",
+        correcta: "votar",
+        opciones: ["votar", "botar", "vothar", "bothar"],
+        retro: "'Votar' con V se refiere a emitir un voto o sufragio. 'Botar' con B es arrojar algo a la basura."
+      },
+      {
+        oracion: "Daniela ayudó a _____ los papeles viejos en el basurero de reciclaje.",
+        correcta: "botar",
+        opciones: ["botar", "votar", "bothar", "botarr"],
+        retro: "'Botar' con B significa arrojar o desechar. 'Votar' con V es para elecciones."
+      },
+      {
+        oracion: "El gásfiter instaló un _____ de cobre nuevo debajo del lavamanos.",
+        correcta: "tubo",
+        opciones: ["tubo", "tuvo", "thubo", "tubbo"],
+        retro: "'Tubo' con B es la pieza cilíndrica hueca. 'Tuvo' con V es del verbo tener."
+      },
+      {
+        oracion: "El mago de Hogwarts _____ la paciencia necesaria para descifrar el acertijo.",
+        correcta: "tuvo",
+        opciones: ["tuvo", "tubo", "thuvo", "tuvvo"],
+        retro: "'Tuvo' con V proviene del verbo tener en pasado."
+      },
+      {
+        oracion: "¡Cuidado! Deja la mochila _____ sobre la mesa de la biblioteca.",
+        correcta: "ahí",
+        opciones: ["ahí", "hay", "¡ay!", "ahi"],
+        retro: "'Ahí' señala un lugar. 'Hay' es del verbo haber y '¡Ay!' es una exclamación de dolor."
+      },
+      {
+        oracion: "En la biblioteca de la escuela _____ muchos libros sobre animales chilenos.",
+        correcta: "hay",
+        opciones: ["hay", "ahí", "¡ay!", "ahi"],
+        retro: "'Hay' con H e Y proviene del verbo haber (existencia)."
+      },
+      {
+        oracion: "Daniela ya ha _____ todas sus tareas de matemáticas en la pizarra.",
+        correcta: "hecho",
+        opciones: ["hecho", "echo", "hechoo", "echho"],
+        retro: "'Hecho' con H viene del verbo hacer. 'Echo' sin H viene del verbo echar (lanzar)."
+      }
+    ];
+
+    const bancoAcentuacion = [
+      { palabra: "Colibrí", tipo: "Aguda (acento en la última sílaba)", opciones: ["Aguda (acento en la última sílaba)", "Grave (acento en la penúltima sílaba)", "Esdrújula (acento en la antepenúltima sílaba)", "Sobreesdrújula"] },
+      { palabra: "Cáliz", tipo: "Grave (acento en la penúltima sílaba)", opciones: ["Grave (acento en la penúltima sílaba)", "Aguda (acento en la última sílaba)", "Esdrújula (acento en la antepenúltima sílaba)", "Sobreesdrújula"] },
+      { palabra: "Mágico", tipo: "Esdrújula (acento en la antepenúltima sílaba)", opciones: ["Esdrújula (acento en la antepenúltima sílaba)", "Aguda (acento en la última sílaba)", "Grave (acento en la penúltima sílaba)", "Sobreesdrújula"] },
+      { palabra: "Volcán", tipo: "Aguda (acento en la última sílaba)", opciones: ["Aguda (acento en la última sílaba)", "Grave (acento en la penúltima sílaba)", "Esdrújula (acento en la antepenúltima sílaba)", "Sobreesdrújula"] },
+      { palabra: "Brújula", tipo: "Esdrújula (acento en la antepenúltima sílaba)", opciones: ["Esdrújula (acento en la antepenúltima sílaba)", "Grave (acento en la penúltima sílaba)", "Aguda (acento en la última sílaba)", "Sobreesdrújula"] },
+      { palabra: "Árbol", tipo: "Grave (acento en la penúltima sílaba)", opciones: ["Grave (acento en la penúltima sílaba)", "Aguda (acento en la última sílaba)", "Esdrújula (acento en la antepenúltima sílaba)", "Sobreesdrújula"] }
+    ];
+
+    function genGrammarChallenge() {
+      const azar = Math.random();
+
+      if (azar < 0.5) {
+        // Reto de homófonos
+        const item = bancoHomonimos[Math.floor(Math.random() * bancoHomonimos.length)];
+        return {
+          subject: "Lenguaje • Ortografía y Homófonos",
+          source: "Currículum Nacional Mineduc 4° Básico (OA 21)",
+          tip: item.retro,
+          passage: `✏️ Completa la oración con la palabra correcta:\n\n"${item.oracion}"`,
+          question: "¿Cuál es la palabra ortográficamente correcta que completa el espacio?",
+          correct: item.correcta,
+          options: shuffle(item.opciones)
+        };
+      } else {
+        // Reto de acentuación
+        const item = bancoAcentuacion[Math.floor(Math.random() * bancoAcentuacion.length)];
+        return {
+          subject: "Lenguaje • Acentuación y Sílaba Tónica",
+          source: "Reglas de Acentuación Mineduc (OA 20)",
+          tip: "Separa mentalmente las sílabas y busca dónde se carga la voz con mayor fuerza.",
+          passage: `🔍 Palabra a analizar: 【 ${item.palabra} 】`,
+          question: `Según la posición de su sílaba tónica, ¿cómo se clasifica la palabra "${item.palabra}"?`,
+          correct: item.tipo,
+          options: shuffle(item.opciones)
+        };
+      }
+    }
+
+    /* CONTROL DE ROTACIÓN ESTRICTA (NUNCA REPETIR) */
+    function getNextReadingStory() {
+      let vistos = JSON.parse(localStorage.getItem('dani_lecturas_vistas') || '[]');
+      
+      // Filtrar historias no vistas
+      let disponibles = megaBancoLecturas.filter(s => !vistos.includes(s.id));
+      
+      // Si ya vio todas, reiniciamos el ciclo conservando la última para no repetir de inmediato
+      if (disponibles.length === 0) {
+        vistos = vistos.slice(-1);
+        disponibles = megaBancoLecturas.filter(s => !vistos.includes(s.id));
+      }
+
+      const elegida = disponibles[Math.floor(Math.random() * disponibles.length)];
+      vistos.push(elegida.id);
+      localStorage.setItem('dani_lecturas_vistas', JSON.stringify(vistos));
+
+      return {
+        subject: elegida.source,
+        source: "Mineduc 4° Básico",
+        tip: elegida.tip,
+        passage: `📖 ${elegida.title}\n\n${elegida.text}`,
+        question: elegida.question,
+        correct: elegida.correct,
+        options: shuffle(elegida.opts)
+      };
+    }
 
     function buildLangPool(count = 10) {
       const list = [];
-      const availableStories = storiesDB.filter(s => s.id !== lastUsedStoryId);
-      const chosenStory = availableStories[Math.floor(Math.random() * availableStories.length)];
-      lastUsedStoryId = chosenStory.id;
+      
+      // 1. Siempre incluir una lectura del megabanco rotatorio como protagonista
+      list.push(getNextReadingStory());
 
-      const otherStories = shuffle(storiesDB.filter(s => s.id !== chosenStory.id));
-      const poolStories = [chosenStory, ...otherStories];
+      // 2. Rellenar las demás preguntas alternando lecturas y retos de gramática/homófonos
+      while (list.length < count) {
+        if (Math.random() > 0.4) {
+          list.push(genGrammarChallenge());
+        } else {
+          list.push(getNextReadingStory());
+        }
+      }
 
-      poolStories.forEach(s => {
-        s.questions.forEach(qItem => {
-          list.push({
-            subject: "Lenguaje y Comunicación (4° Básico)",
-            source: s.source,
-            tip: qItem.tip,
-            passage: `📖 ${s.title}\n\n${s.text}`,
-            question: qItem.q,
-            correct: qItem.a,
-            options: shuffle(qItem.opts)
-          });
-        });
-      });
-
-      return list.slice(0, count);
+      return list;
     }
 
     /* INICIAR JUEGO REAL */
@@ -1624,14 +1710,18 @@
       document.getElementById('score-display').innerText = currentScore;
       document.getElementById('total-questions-display').innerText = totalQuestions;
 
-      if (currentMode === 'math') {
-        currentQuestions = buildMathPool(selectedSubtopic, totalQuestions);
-      } else {
-        currentQuestions = buildLangPool(totalQuestions);
-      }
-
+      const layout = document.getElementById('game-vertical-layout');
       const canvasCard = document.getElementById('canvas-card');
-      canvasCard.style.display = currentMode === 'lang' ? 'none' : 'flex';
+
+      if (currentMode === 'lang') {
+        layout.classList.add('lang-priority');
+        canvasCard.style.display = 'none';
+        currentQuestions = buildLangPool(totalQuestions);
+      } else {
+        layout.classList.remove('lang-priority');
+        canvasCard.style.display = 'flex';
+        currentQuestions = buildMathPool(selectedSubtopic, totalQuestions);
+      }
 
       showScreen('game-screen');
       loadQuestion();
@@ -1782,13 +1872,20 @@
     }
 
     function regeneratePool() {
-      lastUsedStoryId = null;
-      alert("✨ ¡Se han generado nuevos ejercicios calibrados al Mineduc y rotado todas las lecturas!");
+      if (currentMode === 'lang') {
+        currentQuestions = buildLangPool(10);
+        currentIndex = 0;
+        currentScore = 0;
+        loadQuestion();
+        alert("✨ ¡Se ha rotado la lectura a una nueva y generado retos diferentes de ortografía y acentuación!");
+      } else {
+        alert("✨ ¡Se han generado nuevos números y operaciones matemáticas!");
+        startGameplay(10, 25 * 60);
+      }
     }
 
     function regenerateAndPlay() {
       regeneratePool();
-      showExplanationBeforeGame();
     }
 
     /* HISTORIAL & ANÁLISIS */
@@ -1920,7 +2017,6 @@
       wrapper.classList.toggle('grid-mode');
     }
 
-    // Inicializar progreso al cargar
     checkExamUnlock();
   </script>
 </body>
